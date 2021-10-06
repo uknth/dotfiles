@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 sudo yabai --load-sa
+
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
 # global settings
@@ -35,22 +36,20 @@ yabai -m config --space 8 layout float
 yabai -m config --space 9 layout float
 yabai -m config --space 10 layout float
 
-yabai -m space 1 --label I
-yabai -m space 2 --label II
-yabai -m space 3 --label III
-yabai -m space 4 --label IV
-yabai -m space 5 --label V
-yabai -m space 6 --label VI
-yabai -m space 7 --label VII
-yabai -m space 8 --label VIII
-yabai -m space 9 --label IX
-yabai -m space 10 --label X
+yabai -m space 1 --label Code
+yabai -m space 2 --label Web
+yabai -m space 3 --label Notes
+yabai -m space 4 --label Chat
+yabai -m space 5 --label Mail
+yabai -m space 6 --label Music
+yabai -m space 7 --label Extra.1
+yabai -m space 8 --label Extra.2
+yabai -m space 9 --label Extra.3
+yabai -m space 10 --label Extra.4
 
-# yabai -m rule --add app="Google Chrome" space=1
-# yabai -m rule --add app="Alacritty"     space=2
-# ^^ these are annoying
-yabai -m rule --add app="Safari"        space=3
-yabai -m rule --add app="Zoom"          space=4
+yabai -m rule --add app="Chrome" space=2
+yabai -m rule --add app="Safari" space=2
+yabai -m rule --add app="zoom.us" space=4
 yabai -m rule --add app="Discord"       space=5
 
 yabai -m rule --add app="^System Preferences$" manage=off

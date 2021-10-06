@@ -115,6 +115,7 @@ check_and_create_symbolic_links "$HOME/.bin" "$dotfiles_dir/bin"
 check_and_create_symbolic_links "$HOME/.yabairc" "$dotfiles_dir/config/yabai/rc"
 check_and_create_symbolic_links "$HOME/.skhdrc" "$dotfiles_dir/config/skhd/rc"
 check_and_create_symbolic_links "$HOME/.simplebarrc" "$dotfiles_dir/config/simple-bar/rc"
+check_and_create_symbolic_links "$HOME/.alacritty.yml" "$dotfiles_dir/config/alacritty/alacritty.yml"
 
 if [ "$cifs_mount" != "true" ]; then
     check_and_create_symbolic_links "$HOME/.ssh" "$dotfiles_dir/config/ssh"
