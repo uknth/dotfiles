@@ -111,11 +111,14 @@ fi
 check_and_create_symbolic_links "$HOME/.aws" "$dotfiles_dir/config/aws"
 check_and_create_symbolic_links "$HOME/.ideavimrc" "$dotfiles_dir/config/idea/idearc"
 check_and_create_symbolic_links "$HOME/.bin" "$dotfiles_dir/bin"
-# check_and_create_symbolic_links "$HOME/.spacebarrc" "$dotfiles_dir/config/spacebar/rc"
+check_and_create_symbolic_links "$HOME/.spacebarrc" "$dotfiles_dir/config/spacebar/rc"
 check_and_create_symbolic_links "$HOME/.yabairc" "$dotfiles_dir/config/yabai/rc"
 check_and_create_symbolic_links "$HOME/.skhdrc" "$dotfiles_dir/config/skhd/rc"
 check_and_create_symbolic_links "$HOME/.simplebarrc" "$dotfiles_dir/config/simple-bar/rc"
 check_and_create_symbolic_links "$HOME/.alacritty.yml" "$dotfiles_dir/config/alacritty/alacritty.yml"
+
+# mkdir -p $HOME/Library/Preferences/kitty
+# check_and_create_symbolic_links "$HOME/Library/Preferences/kitty/kitty.conf" "$dotfiles_dir/config/kitty/kitty.conf"
 
 if [ "$cifs_mount" != "true" ]; then
     check_and_create_symbolic_links "$HOME/.ssh" "$dotfiles_dir/config/ssh"
