@@ -24,7 +24,7 @@ if  command -v neofetch &> /dev/null; then
         neofetch
         echo "----------------------------------------"
     fi
-else 
+else
     echo "Neofetch not found"
 
     case "${machine}" in
@@ -35,7 +35,16 @@ else
 
 fi
 
-if [ -f "$lock" ]; then 
+
+if  ! command -v rsync &> /dev/null; then
+  case "${machine}" in
+      "linux")     sudo apt-get install -y rsync ;;
+      "darwin")    brew install rsync ;;
+      *)          echo "$machine not recognised"
+  esac
+fi
+
+if [ -f "$lock" ]; then
     ftu="false"
     echo "Login TS: $(date +%s) $(tty)" >> $lock
 else
@@ -48,7 +57,7 @@ else
 fi
 
 
-# >> Configurable Parameters                
+# >> Configurable Parameters
 #----------------------------------------
 dotfiles_dir="$HOME/Synced/dotfiles"
 history_size=999999
@@ -64,46 +73,54 @@ fi
 
 history_file="$dotfiles_dir/data/_history"
 
-if [ "$machine" = "linux" ]; then 
-    # check if the directory is mounted
-    parent_dotfiles_dir=$(dirname "$dotfiles_dir")
-    if mountpoint -q -- "$parent_dotfiles_dir"; then
+if [ "$machine" = "linux" ]; then
+    if [ ! -z "$DOTFILES_FORCE_HIST_FILE" ]; then
+        history_file="$DOTFILES_FORCE_HIST_FILE"
+    else
+        # check if the directory is mounted
+        parent_dotfiles_dir=$(dirname "$dotfiles_dir")
+        if mountpoint -q -- "$parent_dotfiles_dir"; then
 
-        history_file="$HOME/.dot_history"
-        cifs_mount="true"
+            history_file="$HOME/.dot_history"
+            cifs_mount="true"
 
-        if [ ! -f "$HOME/.dot_history" ]; then
-            rsync -ar "$dotfiles_dir/data/_history" "$HOME/.dot_history"
+            if [ ! -f "$HOME/.dot_history" ]; then
+                rsync -ar "$dotfiles_dir/data/_history" "$HOME/.dot_history"
 
-            src="$dotfiles_dir/data/_history"
-            dest="$HOME/.dot_history"
+                src="$dotfiles_dir/data/_history"
+                dest="$HOME/.dot_history"
 
-            crontab -l > /tmp/cron.job
+                crontab -l > /tmp/cron.job
 
-            echo "*/5 * * * * rsync -ar $src $dest" >> /tmp/cron.job
-            crontab /tmp/cron.job
-            rm /tmp/cron.job
+                echo "*/5 * * * * rsync -ar $src $dest" >> /tmp/cron.job
+                crontab /tmp/cron.job
+                rm /tmp/cron.job
+            fi
         fi
     fi
+fi
+
+if [[ ! -z "${DOTFILES_CIFS_MOUNT}" ]]; then
+    cifs_mount="${DOTFILES_CIFS_MOUNT}"
 fi
 
 # >> Imports
 #----------------------------------------
 
-if [ "$verbose" = "true" ]; then 
+if [ "$verbose" = "true" ]; then
     echo "DOTFILES: $dotfiles_dir"
     echo "CIFS_MOUNT: $cifs_mount"
 fi
 
 # Functions in ./fns.d/*
-if [ -d "$dotfiles_dir/etc/fns.d" ]; then 
+if [ -d "$dotfiles_dir/etc/fns.d" ]; then
     for f in $dotfiles_dir/etc/fns.d/*; do  source $f; done
-fi 
+fi
 
 # Aliases in ./aliases.d/*
-if [ -d "$dotfiles_dir/etc/aliases.d" ]; then 
+if [ -d "$dotfiles_dir/etc/aliases.d" ]; then
     for f in $dotfiles_dir/etc/aliases.d/*; do source $f; done
-fi 
+fi
 
 
 # >> Setup Environment
@@ -112,8 +129,14 @@ check_and_create_symbolic_links "$HOME/.aws" "$dotfiles_dir/config/aws"
 check_and_create_symbolic_links "$HOME/.ideavimrc" "$dotfiles_dir/config/idea/idearc"
 check_and_create_symbolic_links "$HOME/.bin" "$dotfiles_dir/bin"
 check_and_create_symbolic_links "$HOME/.alacritty.yml" "$dotfiles_dir/config/alacritty/alacritty.yml"
+# check_and_create_symbolic_links "$HOME/.emacs.d" "$dotfiles_dir/config/emacs"
+check_and_create_symbolic_links "$HOME/.wezterm.lua" "$dotfiles_dir/config/wezterm.lua"
+check_and_create_symbolic_links "$HOME/.kube" "$dotfiles_dir/config/kube"
+mkdir -p "$HOME/.config"
+check_and_create_symbolic_links "$HOME/.config/nvim" "$dotfiles_dir/config/nvim"
+check_and_create_symbolic_links "$HOME/.m2" "$dotfiles_dir/data/m2"
 
-if [ "$machine" = "darwin" ]; then 
+if [ "$machine" = "darwin" ]; then
     check_and_create_symbolic_links "$HOME/.spacebarrc" "$dotfiles_dir/config/spacebar/rc"
     check_and_create_symbolic_links "$HOME/.yabairc" "$dotfiles_dir/config/yabai/rc"
     check_and_create_symbolic_links "$HOME/.skhdrc" "$dotfiles_dir/config/skhd/rc"
@@ -128,7 +151,7 @@ if [ "$cifs_mount" != "true" ]; then
 
     dest="$HOME/.ssh"
     chmod -f 700 $dest/id_rsa*
-    chmod -f 700 $dest/*.pem 
+    chmod -f 700 $dest/*.pem
 else
     # check if ~/.ssh/config exists, if not do a rsync
     if [ ! -f "$HOME/.ssh/config" ]; then
@@ -153,7 +176,7 @@ create_directory_tree
 # Set up Development Environment
 generate_go_vars
 
-if [ "$ftu" = "true" ]; then 
+if [ "$ftu" = "true" ]; then
 
     declare -a repos=(
         "asterix"
@@ -212,10 +235,10 @@ export EDITOR="vim"
 export PATH="$dotfiles_dir/bin:$PATH"
 export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
 
-# >> Exports 
-if [ -d "$dotfiles_dir/etc/exports.d" ]; then 
+# >> Exports
+if [ -d "$dotfiles_dir/etc/exports.d" ]; then
     for f in $dotfiles_dir/etc/exports.d/*; do source $f; done
-fi 
+fi
 
 
 
@@ -225,9 +248,9 @@ if [ -f "$dotfiles_dir/config/host/$HOST.sh" ]; then
     source "$dotfiles_dir/config/host/$HOST.sh"
 fi
 
-if [ "$verbose" = "true" ]; then 
+if [ "$verbose" = "true" ]; then
     echo "----------------------------------------"
-fi 
+fi
 
 cd $HOME
 # -- END

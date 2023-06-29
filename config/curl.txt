@@ -1,5 +1,9 @@
 
  -------------------------------------------------\n
+        size_request:  %{size_request}\n
+         size_upload:  %{size_upload}\n
+       size_download:  %{size_download}\n
+ -------------------------------------------------\n
      time_namelookup:  %{time_namelookup}s\n
         time_connect:  %{time_connect}s\n
      time_appconnect:  %{time_appconnect}s\n
@@ -9,3 +13,4 @@
                      ----------\n
           time_total:  %{time_total}s\n
  -------------------------------------------------\n
+       response_code:  %{response_code}\n

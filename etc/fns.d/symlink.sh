@@ -16,7 +16,7 @@ function check_and_create_symbolic_links {
     if [ "$flag" = "false" ];then 
         # create sym link
         echo "creating symlink for: $2 to $1"
-        rm -f "$1"
+        rm -rf "$1"
         ln -s "$2" "$1"
     fi
 }
