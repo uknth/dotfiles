@@ -151,7 +151,7 @@ require('nightfox').setup({
 })
 
 
-vim.cmd.colorscheme 'nightfox'
+vim.cmd.colorscheme 'dayfox'
 
 -- vim.g.minimal_italic_functions = false
 -- vim.g.minimal_italic_comments = false

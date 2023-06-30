@@ -9,7 +9,7 @@ local padding = {
 }
 
 return {
-    color_scheme = 'Tomorrow Night',
+    color_scheme = 'Tomorrow',
 
     -- Basic Warnings & Configurations
     warn_about_missing_glyphs = false,

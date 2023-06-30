@@ -232,8 +232,28 @@ SAVEHIST=$history_size
 #----------------------------------------
 export LC_ALL=en_US.UTF-8
 export EDITOR="vim"
+
+if [ -d /etc/profile.d ]; then
+  for i in /etc/profile.d/*.sh; do
+    if [ -r $i ]; then
+      . $i
+    fi
+  done
+  unset i
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    export PATH="$HOME/bin:$PATH"
+fi
+
 export PATH="$dotfiles_dir/bin:$PATH"
-export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
+export PATH="$PATH:$GOPATH/bin"
 
 # >> Exports
 if [ -d "$dotfiles_dir/etc/exports.d" ]; then
