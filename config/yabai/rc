@@ -1,84 +1,106 @@
 #!/usr/bin/env sh
 
+# Load SA for Yabai
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
-yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+# Aliases
+alias ym='yabai -m'
+alias cfg='ym config'
+alias rule='ym rule'
+alias sig='ym signal'
 
-yabai -m config window_placement             first_child
+# CONFIG
+# ----------------------------------
+# Default Configuration
+# -- can be bsp, stakc, or float
+cfg layout bsp 
 
-# global settings
-yabai -m config mouse_follows_focus          off
-yabai -m config focus_follows_mouse          off
-yabai -m config window_topmost               off
-yabai -m config window_shadow                off
+# Window Management
+cfg window_placement second_child
+# Turns off default shadow of window, increases load time
+cfg window_shadow off 
+cfg window_opacity on
+cfg split_ratio 0.50
+cfg auto_balance off
 
-# Window Opacity
-yabai -m config window_opacity               on
+# Padding
+cfg top_padding 3
+cfg bottom_padding 3
+cfg left_padding 3
+cfg right_padding 3
+cfg window_gap 2
 
-# yabai -m config active_window_border_color   0x0002b36
-# yabai -m config normal_window_border_color   0x0DDE2E4
+# Mouse settings
+cfg mouse_follows_focus on
+cfg mouse_modifier alt
+# -- left click + drag
+cfg mouse_action1 move
+# -- right click + drag
+cfg mouse_action2 resize
+# -- drag and drop the window will swap positions
+ym mouse_drop_action swap
 
-yabai -m config window_border off
+# Border Colors
+cfg window_border on
+cfg window_border_width 1
+cfg active_window_border_color 0x9994e2d5
+cfg normal_window_border_color 0x119bff4a
 
-yabai -m config split_ratio                  0.50
+# Spaces
+# ----------------------------------
+# Space Labels
+ym space 1 --label Home
+ym space 2 --label Browser
+ym space 3 --label Code
+ym space 4 --label Terminal
+ym space 5 --label Chat
+ym space 6 --label Music
 
-yabai -m config auto_balance                 off
+# Floating Spaces
+# float the Home Space
+cfg --space 1 layout float
+cfg --space 7 layout float
+cfg --space 8 layout float
+cfg --space 9 layout float
 
-yabai -m config mouse_modifier               fn
-yabai -m config mouse_action1                move
-yabai -m config mouse_action2                resize
-yabai -m config mouse_drop_action            swap
+# RULES
+# ----------------------------------
+# Exclusion
+rule --add app="System Settings$"  manage=off
+rule --add app="App Store"  manage=off
+rule --add app="Shottr" manage=off
+rule --add app="^Finder$" manage=off
+rule --add app="RayCast" manage=off
 
-yabai -m config layout                       bsp
-yabai -m config top_padding                  10
-yabai -m config bottom_padding               10
-yabai -m config left_padding                 5
-yabai -m config right_padding                5
-yabai -m config window_gap                   10
+# Designations
+# space=2
+rule --add app="Firefox" space=2
+rule --add app="Chrome" space=2
+rule --add app="Safari" space=2
+# space=3
+rule --add app="Code" space=3
+rule --add app="WezTerm" space=4
+# space=4
+rule --add app="Notion" space=4
+rule --add app="Craft" space=4
+# space=5
+rule --add app="Slack" space=5
+rule --add app="zoom.us" space=5
+# space=6
+rule --add app="Music" space=6
+rule --add app="Spotify" space=6
 
-yabai -m config --space 7 layout float
-yabai -m config --space 8 layout float
-yabai -m config --space 9 layout float
-yabai -m config --space 10 layout float
-
-yabai -m space 1 --label Code
-yabai -m space 2 --label Web
-yabai -m space 3 --label Notes
-yabai -m space 4 --label Chat
-yabai -m space 5 --label Mail
-yabai -m space 6 --label Music
-yabai -m space 7 --label Extra.1
-yabai -m space 8 --label Extra.2
-yabai -m space 9 --label Extra.3
-
-
-# Development
-yabai -m rule --add app="iterm2" space=1
-yabai -m rule --add app="Code" space=1
-
-# Notes
-yabai -m rule --add app="Notion" space=3
-
-# Browsers
-yabai -m rule --add app="Chrome" space=2
-yabai -m rule --add app="Safari" space=2
-
-# Chat & Video
-yabai -m rule --add app="zoom.us" space=4
-yabai -m rule --add app="Slack" space=4
-yabai -m rule --add app="Messages" space=4
-yabai -m rule --add app="FaceTime" space=4
+# SIGNALS
+# ----------------------------------
+# script disables any border on floating spaces 1,7,8,9
+sig --add event=application_launched action="$HOME/.bin/yb_noborder_on_float.sh"
+sig --add event=space_changed action="$HOME/.bin/yb_noborder_on_float.sh"
+sig --add event=window_created action="$HOME/.bin/yb_noborder_on_float.sh"
 
 
-# Mail
-yabai -m rule --add app="Spark" space=5
-
-# Music
-yabai -m rule --add app="Spotify" space=6
-yabai -m rule --add app="Music" space=6
-
-yabai -m rule --add app="^System Preferences$" manage=off
-yabai -m rule --add app="^Finder$" manage=off
-
-yabai -m config external_bar all:27:0
+# -- OLD CONFIG --
+# ----------------------------------
+# sudo yabai --load-sa
+# ym signal --add event=dock_did_restart action="sudo yabai --load-sa"
 

@@ -137,10 +137,11 @@ check_and_create_symbolic_links "$HOME/.config/nvim" "$dotfiles_dir/config/nvim"
 check_and_create_symbolic_links "$HOME/.m2" "$dotfiles_dir/data/m2"
 
 if [ "$machine" = "darwin" ]; then
-    check_and_create_symbolic_links "$HOME/.spacebarrc" "$dotfiles_dir/config/spacebar/rc"
+#    check_and_create_symbolic_links "$HOME/.spacebarrc" "$dotfiles_dir/config/spacebar/rc"
     check_and_create_symbolic_links "$HOME/.yabairc" "$dotfiles_dir/config/yabai/rc"
     check_and_create_symbolic_links "$HOME/.skhdrc" "$dotfiles_dir/config/skhd/rc"
-    check_and_create_symbolic_links "$HOME/.simplebarrc" "$dotfiles_dir/config/simple-bar/rc"
+#    check_and_create_symbolic_links "$HOME/.simplebarrc" "$dotfiles_dir/config/simple-bar/rc"
+#    check_and_create_symbolic_links "$HOME/.config/sketchybar" "$dotfiles_dir/config/sketchybar"
 fi
 
 # mkdir -p $HOME/Library/Preferences/kitty
@@ -152,6 +153,7 @@ if [ "$cifs_mount" != "true" ]; then
     dest="$HOME/.ssh"
     chmod -f 700 $dest/id_rsa*
     chmod -f 700 $dest/*.pem
+    chmod -f 700 $dest/config
 else
     # check if ~/.ssh/config exists, if not do a rsync
     if [ ! -f "$HOME/.ssh/config" ]; then
@@ -257,7 +259,7 @@ export PATH="$PATH:$GOPATH/bin"
 
 # >> Exports
 if [ -d "$dotfiles_dir/etc/exports.d" ]; then
-    for f in $dotfiles_dir/etc/exports.d/*; do source $f; done
+    for f in $dotfiles_dir/etc/exports.d/*.sh; do source $f; done
 fi
 
 

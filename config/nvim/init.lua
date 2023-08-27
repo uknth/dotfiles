@@ -25,6 +25,7 @@ require('packer').startup(function(use)
       'folke/neodev.nvim',
     },
   }
+  use ({ 'projekt0n/github-nvim-theme' })
 
   use { -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -62,6 +63,7 @@ require('packer').startup(function(use)
 
   -- for theme with config
   use 'EdenEast/nightfox.nvim'
+  use { "catppuccin/nvim", as = "catppuccin" }
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -109,6 +111,7 @@ vim.o.hlsearch = false
 
 -- Make line numbers default
 vim.wo.number = true
+vim.wo.relativenumber = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -131,27 +134,45 @@ vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 
 -- vim.cmd.colorscheme 'base16-tomorrow-night'
---[[
 require("github-theme").setup({
-  theme_style = "dark",
-  function_style = "bold",
-  comment_style = "NONE",
-  keyword_style = "bold",
-  sidebars = {"qf", "vista_kind", "terminal", "packer"},
+  options = {
+    styles = {
+      comments = "NONE",
+      functions = "bold",
+      keywords = "bold",
+    },
+    darken = {
+      sidebars = {
+        lists = {"qf", "vista_kind", "terminal", "packer"},
+      },
+    },
+  },
+})
+-- vim.cmd.colorscheme 'github_light'
+vim.cmd.colorscheme 'github_light_high_contrast'
+--
+-- # Night Fox Theme Setup
+--[[
+require('nightfox').setup({
+    options = {
+      styles = {              -- Style to be applied to different syntax groups
+        comments = "NONE",
+      }
+    }
 })
 --]]
---
--- Night Fox Theme Setup
-require('nightfox').setup({
-  options = {
-    styles = {              -- Style to be applied to different syntax groups
-       comments = "NONE",
-    }
-   }
+
+
+-- vim.cmd.colorscheme 'dayfox'
+
+-- # Catppucin theme setup
+require("catppuccin").setup({
+    flavour = "mocha",
+    no_italic = true,
+    no_underline = true,
 })
 
-
-vim.cmd.colorscheme 'dayfox'
+-- vim.cmd.colorscheme "catppuccin"
 
 -- vim.g.minimal_italic_functions = false
 -- vim.g.minimal_italic_comments = false
@@ -520,7 +541,8 @@ vim.keymap.set('n', '<F10>', ':split<CR>')
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*.go" },
   callback = function()
-	  vim.lsp.buf.formatting_sync(nil, 3000)
+	  -- vim.lsp.buf.formatting_sync(nil, 3000)
+    vim.lsp.buf.format({async = false})
   end,
 })
 
@@ -590,4 +612,5 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
 

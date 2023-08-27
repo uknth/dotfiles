@@ -9,12 +9,14 @@ local padding = {
 }
 
 return {
-    color_scheme = 'Tomorrow',
+    color_scheme = 'Github (base16)',
 
     -- Basic Warnings & Configurations
     warn_about_missing_glyphs = false,
     hide_tab_bar_if_only_one_tab = true,
     window_padding = padding,
+    window_decorations = "RESIZE",
+
 
     -- Fonts 
     font = wezterm.font_with_fallback {
