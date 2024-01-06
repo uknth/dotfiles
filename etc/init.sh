@@ -46,14 +46,14 @@ fi
 
 if [ -f "$lock" ]; then
     ftu="false"
-    echo "Login TS: $(date +%s) $(tty)" >> $lock
+    echo "Login TS: $USER $(date +%s) $(tty)" >> $lock
 else
     echo "----------------------" > $lock
     echo "Created: $(date)" >> $lock
     echo "----------------------" >> $lock
     echo "$(neofetch)" >> $lock
     echo "----------------------" >> $lock
-    echo "Login TS: $(date +%s) $(tty)" >> $lock
+    echo "Login TS: $USER $(date +%s) $(tty)" >> $lock
 fi
 
 
@@ -90,11 +90,14 @@ if [ "$machine" = "linux" ]; then
                 src="$dotfiles_dir/data/_history"
                 dest="$HOME/.dot_history"
 
+                # TODO: Write a project to sync the History 
+                # -- this just copies the data from the source to destination
+                # -- any history in the destination is lost
                 crontab -l > /tmp/cron.job
-
                 echo "*/5 * * * * rsync -ar $src $dest" >> /tmp/cron.job
                 crontab /tmp/cron.job
                 rm /tmp/cron.job
+                # -- this isn't working
             fi
         fi
     fi
@@ -109,6 +112,7 @@ fi
 
 if [ "$verbose" = "true" ]; then
     echo "DOTFILES: $dotfiles_dir"
+    # TODO: Sync system should remove the need for CIFS checks
     echo "CIFS_MOUNT: $cifs_mount"
 fi
 

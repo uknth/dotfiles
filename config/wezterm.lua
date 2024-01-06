@@ -8,15 +8,40 @@ local padding = {
 	bottom = "0.1cell",
 }
 
+
 return {
+    use_fancy_tab_bar = true,
+
+    window_frame = {
+      active_titlebar_bg = '#fafafa',
+    },
+
+    colors = {
+      tab_bar = {
+        inactive_tab_edge = '#fafafa',
+        active_tab = {
+          -- The color of the background area for the tab
+          bg_color = '#010101',
+          -- The color of the text for the tab
+          fg_color = '#fafafa',
+        },
+
+        inactive_tab = {
+          bg_color = '#dadada',
+          fg_color = '#010101',
+        },
+
+      },
+    },
+
     color_scheme = 'Github (base16)',
 
     -- Basic Warnings & Configurations
     warn_about_missing_glyphs = false,
     hide_tab_bar_if_only_one_tab = true,
+    tab_bar_at_bottom = false,
     window_padding = padding,
     window_decorations = "RESIZE",
-
 
     -- Fonts 
     font = wezterm.font_with_fallback {
