@@ -1,282 +1,114 @@
-# -- START
-# variables
-machine="*"
-history_file="*"
-cifs_mount="false"
-ftu="true"
-lock="$HOME/.dot.lock"
-verbose="false"
+# Util Methods
 
-if [ -z "$KITTY_WINDOW_ID" ] && [ -z "$ALACRITTY_LOG" ]; then
-    verbose="true"
+function fn_dot_home {
+	if [[ ! -z "${DOT_HOME}" ]]; then
+		echo "$DOT_HOME"
+	else
+		echo "$HOME/Sync/dotfiles"
+	fi
+}
+
+function fn_dot_data {
+	if [[ ! -z "${DOT_DATA}" ]]; then
+		echo "$DOT_DATA"
+	else
+		echo "$HOME/Sync/dotfiles_data"
+	fi
+}
+
+function fn_workspace_home {
+	if [[ ! -z "${WORKSPACE_HOME}" ]]; then
+		echo "$WORKSPACE_HOME"
+	else
+		echo "$HOME/Sync/Workspace"
+	fi
+}
+
+# resolve variable `dot_home`
+dot="$HOME/.dot"
+mkdir -p $dot
+
+dot_lock="$HOME/.dot/lock"
+dot_home=$(fn_dot_home)
+dot_data=$(fn_dot_data)
+dot_history="$dot_data/zsh/history"
+workspace_home=$(fn_workspace_home)
+
+if [ ! -d "$dot_home" ]; then
+	echo "dir: $dot_home doesn't exist"
+	exit 1
 fi
 
-unameOut="$(uname -s)"
-case "${unameOut}" in
-    Linux*)     machine="linux";;
-    Darwin*)    machine="darwin";;
-    *)          machine="UNKNOWN:${unameOut}"
-esac
-
-if  command -v neofetch &> /dev/null; then
-    # Do not print neofetch when running in alacritty or kitty
-    if [ "$verbose" = "true" ]; then
-        neofetch
-        echo "----------------------------------------"
-    fi
-else
-    echo "Neofetch not found"
-
-    case "${machine}" in
-        "linux")     sudo apt-get install -y neofetch && echo "-------" && neofetch;;
-        "darwin")    brew install neofetch && echo "---------" && neofetch ;;
-        *)          echo "$machine not recognised"
-    esac
-
+if [ ! -d "$dot_data" ]; then
+	echo "dir: $dot_home doesn't exist"
+	exit 1
 fi
 
-
-if  ! command -v rsync &> /dev/null; then
-  case "${machine}" in
-      "linux")     sudo apt-get install -y rsync ;;
-      "darwin")    brew install rsync ;;
-      *)          echo "$machine not recognised"
-  esac
+# Import Library Files
+if [ -d "$dot_home/etc/lib" ]; then
+	for f in $dot_home/etc/lib/*; do source $f; done
 fi
 
-if [ -f "$lock" ]; then
-    ftu="false"
-    echo "Login TS: $USER $(date +%s) $(tty)" >> $lock
-else
-    echo "----------------------" > $lock
-    echo "Created: $(date)" >> $lock
-    echo "----------------------" >> $lock
-    echo "$(neofetch)" >> $lock
-    echo "----------------------" >> $lock
-    echo "Login TS: $USER $(date +%s) $(tty)" >> $lock
+# Now that we have parsed the library,
+# we can use functions defined in lib
+dot_os=$(fn_operating_system)
+dot_history_size="10000"
+dot_is_ftu=$(fn_ftu $dot_lock)
+
+# Load Environment
+if [ -d "$dot_home/etc/env" ]; then
+	for f in $dot_home/etc/env/*; do source $f; done
 fi
 
+# Print startup details
 
-# >> Configurable Parameters
-#----------------------------------------
-dotfiles_dir="$HOME/Synced/dotfiles"
-history_size=999999
-#----------------------------------------
+# Set zsh
+HISTFILE=$dot_history
+HISTSIZE=$dot_history_size
+SAVEHIST=$dot_history_size
 
-if [[ ! -z "${DOTFILES_DIR}" ]]; then
-    dotfiles_dir="${DOTFILES_DIR}"
+if [ -f "$dot_data/host/$HOST.sh" ]; then
+	source "$dot_data/host/$HOST.sh"
 fi
 
-if [[ ! -z "${DOTFILES_HIST_SIZE}" ]]; then
-    history_size="${DOTFILES_HIST_SIZE}"
+if [ "$dot_is_ftu" = "true" ]; then
+	# execute ftu flow
+	echo "---"
+	echo "ftu -> $USER"
+	echo "---"
+	fn_create_symbolic_link "$HOME/.bin" "$dot_home/bin"
+	fn_create_symbolic_link "$HOME/.ideavimrc" "$dot_home/config/idea/idearc"
+	fn_create_symbolic_link "$HOME/.alacritty.yml" "$dot_home/config/alacritty/alacritty.yml"
+	fn_create_symbolic_link "$HOME/.wezterm.lua" "$dot_home/config/wezterm.lua"
+
+	if [ "$dot_os" = "darwin" ]; then
+		fn_create_symbolic_link "$HOME/.yabairc" "$dot_home/config/yabai/rc"
+		fn_create_symbolic_link "$HOME/.skhdrc" "$dot_home/config/skhd/rc"
+	fi
+
+	fn_ftu_nvim $dot_home $dot_data # neovim
+
+	# configs with secrets
+	fn_ftu_aws $dot_home $dot_data # AWS
+	fn_ftu_ssh $dot_home $dot_data # SSH
+
+	# data
+	fn_create_symbolic_link "$HOME/.kube" "$dot_data/kube"
+	fn_create_symbolic_link "$HOME/.m2" "$dot_data/m2"
+
+	# create directory structure
+	fn_create_directory_tree "$workspace_home"
+
+	# clone work repository
+	if [[ -z "${DOT_SKIP_GIT_CLONE}" ]]; then
+		fn_git_clone "$dot_data" "$workspace_home"
+	fi
 fi
 
-history_file="$dotfiles_dir/data/_history"
+# Development Environment
+fn_dev_go $workspace_home
 
-if [ "$machine" = "linux" ]; then
-    if [ ! -z "$DOTFILES_FORCE_HIST_FILE" ]; then
-        history_file="$DOTFILES_FORCE_HIST_FILE"
-    else
-        # check if the directory is mounted
-        parent_dotfiles_dir=$(dirname "$dotfiles_dir")
-        if mountpoint -q -- "$parent_dotfiles_dir"; then
-
-            history_file="$HOME/.dot_history"
-            cifs_mount="true"
-
-            if [ ! -f "$HOME/.dot_history" ]; then
-                rsync -ar "$dotfiles_dir/data/_history" "$HOME/.dot_history"
-
-                src="$dotfiles_dir/data/_history"
-                dest="$HOME/.dot_history"
-
-                # TODO: Write a project to sync the History 
-                # -- this just copies the data from the source to destination
-                # -- any history in the destination is lost
-                crontab -l > /tmp/cron.job
-                echo "*/5 * * * * rsync -ar $src $dest" >> /tmp/cron.job
-                crontab /tmp/cron.job
-                rm /tmp/cron.job
-                # -- this isn't working
-            fi
-        fi
-    fi
-fi
-
-if [[ ! -z "${DOTFILES_CIFS_MOUNT}" ]]; then
-    cifs_mount="${DOTFILES_CIFS_MOUNT}"
-fi
-
-# >> Imports
-#----------------------------------------
-
-if [ "$verbose" = "true" ]; then
-    echo "DOTFILES: $dotfiles_dir"
-    # TODO: Sync system should remove the need for CIFS checks
-    echo "CIFS_MOUNT: $cifs_mount"
-fi
-
-# Functions in ./fns.d/*
-if [ -d "$dotfiles_dir/etc/fns.d" ]; then
-    for f in $dotfiles_dir/etc/fns.d/*; do  source $f; done
-fi
-
-# Aliases in ./aliases.d/*
-if [ -d "$dotfiles_dir/etc/aliases.d" ]; then
-    for f in $dotfiles_dir/etc/aliases.d/*; do source $f; done
-fi
-
-
-# >> Setup Environment
-#----------------------------------------
-check_and_create_symbolic_links "$HOME/.aws" "$dotfiles_dir/config/aws"
-check_and_create_symbolic_links "$HOME/.ideavimrc" "$dotfiles_dir/config/idea/idearc"
-check_and_create_symbolic_links "$HOME/.bin" "$dotfiles_dir/bin"
-check_and_create_symbolic_links "$HOME/.alacritty.yml" "$dotfiles_dir/config/alacritty/alacritty.yml"
-# check_and_create_symbolic_links "$HOME/.emacs.d" "$dotfiles_dir/config/emacs"
-check_and_create_symbolic_links "$HOME/.wezterm.lua" "$dotfiles_dir/config/wezterm.lua"
-check_and_create_symbolic_links "$HOME/.kube" "$dotfiles_dir/config/kube"
-mkdir -p "$HOME/.config"
-check_and_create_symbolic_links "$HOME/.config/nvim" "$dotfiles_dir/config/nvim"
-check_and_create_symbolic_links "$HOME/.m2" "$dotfiles_dir/data/m2"
-
-if [ "$machine" = "darwin" ]; then
-#    check_and_create_symbolic_links "$HOME/.spacebarrc" "$dotfiles_dir/config/spacebar/rc"
-    check_and_create_symbolic_links "$HOME/.yabairc" "$dotfiles_dir/config/yabai/rc"
-    check_and_create_symbolic_links "$HOME/.skhdrc" "$dotfiles_dir/config/skhd/rc"
-#    check_and_create_symbolic_links "$HOME/.simplebarrc" "$dotfiles_dir/config/simple-bar/rc"
-#    check_and_create_symbolic_links "$HOME/.config/sketchybar" "$dotfiles_dir/config/sketchybar"
-fi
-
-# mkdir -p $HOME/Library/Preferences/kitty
-# check_and_create_symbolic_links "$HOME/Library/Preferences/kitty/kitty.conf" "$dotfiles_dir/config/kitty/kitty.conf"
-
-if [ "$cifs_mount" != "true" ]; then
-    check_and_create_symbolic_links "$HOME/.ssh" "$dotfiles_dir/config/ssh"
-
-    dest="$HOME/.ssh"
-    chmod -f 700 $dest/id_rsa*
-    chmod -f 700 $dest/*.pem
-    chmod -f 700 $dest/config
-else
-    # check if ~/.ssh/config exists, if not do a rsync
-    if [ ! -f "$HOME/.ssh/config" ]; then
-        src="$dotfiles_dir/config/ssh/"
-        dest="$HOME/.ssh"
-
-        rsync -ar "$src" "$dest"
-
-        chmod -f 700 $dest/id_rsa*
-        chmod -f 700 $dest/*.pem
-
-        # Set the same up on crontab
-        crontab -l > /tmp/cron.job
-        echo "0 * * * * rsync -ar $src $dest && chmod 700 $dest/id_rsa* $dest/*.pem" >> /tmp/cron.job
-        crontab /tmp/cron.job
-    fi
-fi
-
-# Create Directory Tree
-create_directory_tree
-
-# Set up Development Environment
-generate_go_vars
-
-if [ "$ftu" = "true" ]; then
-
-    declare -a repos=(
-        "asterix"
-        "albus"
-        "ether"
-        "wingman"
-        "blackpearl"
-        "search-brewer"
-        "nats-bridge"
-        "mozart"
-        "cube"
-        "solr-zero"
-        "qpl"
-        "banshee"
-        "hagrid"
-        "overpass"
-        "odin"
-    )
-    echo "----------------------------------------"
-    for i in "${repos[@]}"; do
-        git_clone_work $i
-    done
-    echo "----------------------------------------"
-
-	git config --global url."git@github.com:".insteadOf "https://github.com/"
-
-    # Set up vim
-    echo "Installing: vim"
-
-    # Remove Existing .vim directory and .vimrc
-    rm -rf ~/.vim ~/.vimrc
-    
-    # Clone Vim Config
-    git clone git@github.com:uknth/vimx.git $HOME/.vim
-
-    # Vim Setting
-    echo "source $HOME/.vim/vimrc.vim" > $HOME/.vimrc
-    echo "colorscheme Tomorrow" >> ~/.vimrc
-	echo "set background=light" >> ~/.vimrc
-
-    echo "Note: vim setup Complete, install yarn from nodesource"
-
-fi
-
-
-# >> ZSH/BASH Setup Parameters
-#----------------------------------------
-HISTFILE=$history_file
-HISTSIZE=$history_size
-SAVEHIST=$history_size
-
-# >> Exports
-#----------------------------------------
-export LC_ALL=en_US.UTF-8
-export EDITOR="vim"
-
-if [ -d /etc/profile.d ]; then
-  for i in /etc/profile.d/*.sh; do
-    if [ -r $i ]; then
-      . $i
-    fi
-  done
-  unset i
-fi
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    export PATH="$HOME/bin:$PATH"
-fi
-
-export PATH="$dotfiles_dir/bin:$PATH"
-export PATH="$PATH:$GOPATH/bin"
-
-# >> Exports
-if [ -d "$dotfiles_dir/etc/exports.d" ]; then
-    for f in $dotfiles_dir/etc/exports.d/*.sh; do source $f; done
-fi
-
-
-
-# >> Host Specific Configuration
-#----------------------------------------
-if [ -f "$dotfiles_dir/config/host/$HOST.sh" ]; then
-    source "$dotfiles_dir/config/host/$HOST.sh"
-fi
-
-if [ "$verbose" = "true" ]; then
-    echo "----------------------------------------"
-fi
+fn_neofetch
+fn_motd
 
 cd $HOME
-# -- END

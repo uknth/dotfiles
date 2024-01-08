@@ -2,27 +2,14 @@
 
 Can work with both Linux & MacOS, might need some tweaks. Works for most of my use cases.
 
-
-
-To Use the dotfiles
-
-1. Clone the Repository
-2. export `DOTFILES_DIR` as part of .zshrc or .bashrc
-3. source $DOTFILES_DIR/etc/init.sh
-
-
-## Sample .zshrc 
-
-Clone in `~/.dotfiles`
-
-```
-$ git clone git@github.com:uknth/dotfiles.git ~/.dotfiles
 ```
 
-```
-$ cat ~/.zshrc
-export DOTFILES_DIR="$HOME/.dotfiles"
-source "$DOTFILES_DIR/etc/init.sh"
+export DOT_HOME="$HOME/Sync/dotfiles"
+export DOT_DATA="$HOME/Sync/dotfiles_data"
+export WORKSPACE_HOME="$HOME/Workspace"
+source "$DOT_HOME/etc/init.sh"
 ```
 
-
+DOT_DATA contains the data folder with caches & secrets, such as pem files & key pairs.
+DOT_HOME contains this repository cloned
+WORKSPACE_HOME contains the code.
