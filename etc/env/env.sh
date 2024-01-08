@@ -27,5 +27,9 @@ if [ -d "$HOME/bin" ]; then
 	export PATH="$HOME/bin:$PATH"
 fi
 
+if [ -d "$DOT_DATA/bin" ]; then
+	export PATH="$DOT_DATA/bin:$PATH"
+fi
+
 export PATH="$dot_home/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin"

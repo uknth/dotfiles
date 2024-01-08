@@ -7,17 +7,6 @@ function fn_ip {
 	curl -s "https://ipinfo.io/$1" | jq .
 }
 
-function fn_motd {
-	if [[ -z "${DOT_SKIP_MOTD}" ]]; then
-		curl -s 'https://api.api-ninjas.com/v1/quotes' -H 'Referer: https://api-ninjas.com/' -H 'Origin: https://api-ninjas.com' >/tmp/quote
-
-		quote="$(cat /tmp/quote | jq '.[].quote')"
-		author="$(cat /tmp/quote | jq '.[].author')"
-
-		printf "Quote Of the Day: \n\n  %s\n\t- %s\n---", "$quote", "$author"
-	fi
-}
-
 function fn_git_clone_unbxd {
 	if [ ! -z "$1" ]; then
 		workspace_home="$2"

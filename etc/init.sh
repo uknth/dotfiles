@@ -109,6 +109,5 @@ fi
 fn_dev_go $workspace_home
 
 fn_neofetch
-fn_motd
 
 cd $HOME
