@@ -27,4 +27,4 @@ alias jump-aps-1="ssh jas1"
 alias jump-gcp-anz-prod='gcloud compute ssh --zone "australia-southeast1-a" "devops@prod-au-se1-mgmt-host-gce" --tunnel-through-iap --project "$GCP_PROJECT"'
 alias jump-gcp-us-prod='gcloud beta compute ssh --zone "us-east4-a" "pilot-rc-unbxd-mgmt-host-us-est4-a-gce" --tunnel-through-iap --project "$GCP_PROJECT"'
 
-alias git-clone="fn_git_clone_work_unbxd"
+alias git-clone="fn_git_clone_work"

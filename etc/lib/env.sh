@@ -31,3 +31,11 @@ function fn_neofetch {
 		printf "%s\n" "---"
 	fi
 }
+
+function fn_git_clone_work {
+	if [ -z "$1" ]; then
+		echo "missing argument, usage: git-clone <repository_name>"
+		exit 1
+	fi
+	fn_git_clone_unbxd $1 $WORKSPACE_HOME
+}

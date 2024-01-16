@@ -17,6 +17,10 @@ return {
 		},
 	},
 
+	{
+		"mfussenegger/nvim-dap",
+		config = function() end,
+	},
 	-- change trouble config
 	{
 		"folke/trouble.nvim",
