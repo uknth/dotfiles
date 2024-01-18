@@ -48,3 +48,36 @@ function fn_git_clone_unbxd {
 		fi
 	fi
 }
+
+function fn_create_symlink {
+	dot_os=$1
+	dot_home=$2
+	dot_data=$3
+
+	fn_create_symbolic_link "$HOME/.bin" "$dot_home/bin"
+	fn_create_symbolic_link "$HOME/.ideavimrc" "$dot_home/config/idea/idearc"
+	fn_create_symbolic_link "$HOME/.alacritty.yml" "$dot_home/config/alacritty/alacritty.yml"
+	fn_create_symbolic_link "$HOME/.wezterm.lua" "$dot_home/config/wezterm.lua"
+
+	# exclusive to macos
+	if [ "$dot_os" = "darwin" ]; then
+		fn_create_symbolic_link "$HOME/.yabairc" "$dot_home/config/yabai/rc"
+		fn_create_symbolic_link "$HOME/.skhdrc" "$dot_home/config/skhd/rc"
+	fi
+
+	# different config for mac & linux
+	if [ "$dot_os" = "darwin" ]; then
+		mkdir -p "$HOME/Library/Application Support/halloy/"
+		fn_create_symbolic_link "$HOME/Library/Application Support/halloy/config.yaml" "$dot_home/config/halloy/config.yaml"
+	fi
+
+	fn_ftu_nvim $dot_home $dot_data # neovim
+
+	# configs with secrets
+	fn_ftu_aws $dot_home $dot_data # AWS
+	fn_ftu_ssh $dot_home $dot_data # SSH
+
+	# data
+	fn_create_symbolic_link "$HOME/.kube" "$dot_data/kube"
+	fn_create_symbolic_link "$HOME/.m2" "$dot_data/m2"
+}
