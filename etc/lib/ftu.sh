@@ -118,7 +118,7 @@ function fn_ftu_nvim {
 		mkdir -p $nvim_home
 	fi
 
-	fn_create_symbolic_link "$nvim_home" "$home/config/nvim"
+	fn_create_symbolic_link "$nvim_home" "$home/config/nvim_s"
 
 	echo "---"
 }

@@ -1,4 +1,6 @@
 #!/bin/bash
+
+alias workspace="cd $WORKSPACE_HOME"
 # Curl
 if [ -f "$dotfiles_dir/config/curl.txt" ]; then
 	alias curlf="curl -w \"@$dotfiles_dir/config/curl.txt\" -o /dev/null -s"
