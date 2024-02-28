@@ -7,7 +7,7 @@ local options = {
     wrap = false,
     termguicolors = true,
     -- colorscheme related
-    background = "light",
+    background = "dark",
 }
 
 for k, v in pairs(options) do
@@ -23,3 +23,4 @@ vim.cmd.set("relativenumber")
 
 local cls = require("helpers.colorscheme")
 vim.cmd.colorscheme(cls)
+

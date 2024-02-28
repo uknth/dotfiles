@@ -30,6 +30,14 @@ map("n", "<M-l>", "$", "Go to end of line")
 
 
 -- Better window navigation
+map("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })
+map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
+map("n", "<leader>w-", "<C-W>s", { desc = "Split window below", remap = true })
+map("n", "<leader>w|", "<C-W>v", { desc = "Split window right", remap = true })
+
+map("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
+map("n", "<leader>|", "<C-W>v", { desc = "Split window right", remap = true })
+
 map("n", "<C-h>", "<C-w><C-h>", "Navigate windows to the left")
 map("n", "<C-j>", "<C-w><C-j>", "Navigate windows down")
 map("n", "<C-k>", "<C-w><C-k>", "Navigate windows up")
@@ -77,3 +85,11 @@ end, "Toggle between light and dark themes")
 
 -- Clear after search
 map("n", "<leader>ur", "<cmd>nohl<cr>", "Clear highlights")
+
+map("n", "<leader>xx", function() require("trouble").toggle() end, "Toggle Trouble Window")
+map("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end, "Trouble Workspace Diagnostics")
+map("n", "<leader>xd", function() require("trouble").toggle("document_diagnostics") end, "Trouble Document Diagnostics")
+map("n", "<leader>xq", function() require("trouble").toggle("quickfix") end, "Trouble quickfix")
+map("n", "<leader>xl", function() require("trouble").toggle("loclist") end, "Trouble loclist")
+map("n", "gR", function() require("trouble").toggle("lsp_references") end, "LSP Reference")
+

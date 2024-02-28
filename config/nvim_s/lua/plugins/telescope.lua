@@ -10,7 +10,8 @@ return {
 
         local map = require("helpers.keys").map
         -- <space><space> = search in open buffers
-        map("n", "<leader><space>", require("telescope.builtin").buffers, "Open buffers")
+        map("n", "<leader><space>", require("telescope.builtin").find_files, "Open buffers")
+        map("n", "<leader>b", require("telescope.builtin").buffers, "Open buffers")
         -- <space>/ = search in current buffer
         map("n", "<leader>/", function()
             -- You can pass additional configuration to telescope to change theme, layout, etc.
@@ -26,12 +27,13 @@ return {
         map("n", "<leader>sm", require("telescope.builtin").marks, "Marks")
 
         -- other useful mappings
+        map("n", "<C-p>", require("telescope.builtin").find_files, "Files")
+        map("n", "<leader>g", require("telescope.builtin").live_grep, "Grep")
+        map("n", "<leader>sc", require("telescope.builtin").commands, "Files")
         map("n", "<leader>sh", require("telescope.builtin").help_tags, "Help")
         map("n", "<leader>sw", require("telescope.builtin").grep_string, "Current word")
         map("n", "<leader>sg", require("telescope.builtin").live_grep, "Grep")
         map("n", "<leader>sd", require("telescope.builtin").diagnostics, "Diagnostics")
-
-        -- search keymaps
-        map("n", "<C-p>", require("telescope.builtin").keymaps, "Search keymaps")
+        map("n", "<leader>sk", require("telescope.builtin").keymaps, "Search keymaps")
     end,
 }

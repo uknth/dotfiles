@@ -8,7 +8,7 @@ local padding = {
 	bottom = "0.1cell",
 }
 
-return {
+local config = {
 	use_fancy_tab_bar = true,
 
 	window_frame = {
@@ -35,8 +35,8 @@ return {
 
 	-- color_scheme = 'Github (base16)',
 	-- color_scheme = "GitHub Dark",
-    -- color_scheme = "dayfox",
-    color_scheme = 'Everforest Dark (Gogh)',
+    	-- color_scheme = "dayfox",
+    	color_scheme = 'Everforest Dark (Gogh)',
 
 	-- Basic Warnings & Configurations
 	warn_about_missing_glyphs = false,
@@ -47,13 +47,13 @@ return {
 
 	-- Fonts
 	font = wezterm.font_with_fallback({
-		"M+CodeLat60 Nerd Font Mono",
+		"CaskaydiaCove Nerd Font Mono",
 		"CaskaydiaCove Nerd Font",
 		"SauceCodePro Nerd Font",
 		"JetBrainsMono Nerd Font",
 		"UbuntuMono Nerd Font",
 	}),
-	font_size = 12,
+	font_size = 10,
 	font_dirs = { "/home/uknth/.fonts" },
 	line_height = 1.1,
 
@@ -77,3 +77,14 @@ return {
 		},
 	},
 }
+
+config.ssh_domains = {
+  	{
+    		name = 'workstation-1',
+    		remote_address = '100.116.174.84',
+    		multiplexing = 'None',
+  	},
+}
+
+config.default_domain = 'workstation-1'
+return config
