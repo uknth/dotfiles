@@ -34,9 +34,15 @@ return {
 	},
 
 	-- color_scheme = 'Github (base16)',
-	-- color_scheme = "GitHub Dark",
-    -- color_scheme = "dayfox",
-    color_scheme = 'Everforest Dark (Gogh)',
+	-- color_scheme = "GitHub ",
+    -- color_scheme = 'PencilLight',
+    -- color_scheme = 'Everforest Light (Gogh)',
+    -- color_scheme = '3024 Day (Gogh)',
+    -- color_scheme = 'Brewer (light) (terminal.sexy)',
+    -- color_scheme = 'Classic Light (base16)',
+    -- color_scheme = 'catppuccin-latte',
+    -- color_scheme = 'Eighties (light) (terminal.sexy)',
+    color_scheme = 'Catppuccin Mocha',
 
 	-- Basic Warnings & Configurations
 	warn_about_missing_glyphs = false,
@@ -48,12 +54,13 @@ return {
 	-- Fonts
 	font = wezterm.font_with_fallback({
 		"M+CodeLat60 Nerd Font Mono",
+        "M+1Code Nerd Font Mono",
 		"CaskaydiaCove Nerd Font",
 		"SauceCodePro Nerd Font",
 		"JetBrainsMono Nerd Font",
 		"UbuntuMono Nerd Font",
 	}),
-	font_size = 12,
+	font_size = 13,
 	font_dirs = { "/home/uknth/.fonts" },
 	line_height = 1.1,
 

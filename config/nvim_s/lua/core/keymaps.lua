@@ -7,6 +7,7 @@
 --   command_mode = "c",
 
 local map = require("helpers.keys").map
+local map_args = require("helpers.keys").map_args
 
 -- example --
 -- keymap("n", "<C-l>", "<C-w>l", "some configuration reason")
@@ -30,13 +31,13 @@ map("n", "<M-l>", "$", "Go to end of line")
 
 
 -- Better window navigation
-map("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })
-map("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
-map("n", "<leader>w-", "<C-W>s", { desc = "Split window below", remap = true })
-map("n", "<leader>w|", "<C-W>v", { desc = "Split window right", remap = true })
+map_args("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })
+map_args("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
+map_args("n", "<leader>w-", "<C-W>s", { desc = "Split window below", remap = true })
+map_args("n", "<leader>w|", "<C-W>v", { desc = "Split window right", remap = true })
 
-map("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
-map("n", "<leader>|", "<C-W>v", { desc = "Split window right", remap = true })
+map_args("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
+map_args("n", "<leader>|", "<C-W>v", { desc = "Split window right", remap = true })
 
 map("n", "<C-h>", "<C-w><C-h>", "Navigate windows to the left")
 map("n", "<C-j>", "<C-w><C-j>", "Navigate windows down")
@@ -52,10 +53,10 @@ map("n", "<S-Right>", "<C-w><S-l>", "Move window to the right")
 
 
 -- Resize with arrows
-map("n", "<C-Up>", ":resize +2<CR>")
-map("n", "<C-Down>", ":resize -2<CR>")
-map("n", "<C-Left>", ":vertical resize +2<CR>")
-map("n", "<C-Right>", ":vertical resize -2<CR>")
+map("n", "<C-Up>", ":resize +2<CR>", "resize up with ctrl + up arrow")
+map("n", "<C-Down>", ":resize -2<CR>", "resize down with ctrl + down arrow")
+map("n", "<C-Left>", ":vertical resize +2<CR>", "resize left with ctrl + left arrow")
+map("n", "<C-Right>", ":vertical resize -2<CR>", "resize right with ctrl + right arrow")
 
 
 -- Deleting buffers
@@ -66,12 +67,12 @@ map("n", "<leader>do", buffers.delete_others, "Other buffers")
 map("n", "<leader>da", buffers.delete_all, "All buffers")
 
 -- Navigate buffers
-map("n", "<S-l>", ":bnext<CR>")
-map("n", "<S-h>", ":bprevious<CR>")
+map("n", "<S-l>", ":bnext<CR>", "next buffer")
+map("n", "<S-h>", ":bprevious<CR>", "previous buffer")
 
 -- Stay in indent mode
-map("v", "<", "<gv")
-map("v", ">", ">gv")
+map("v", "<", "<gv", "left indent")
+map("v", ">", ">gv", "right indent")
 
 
 -- Switch between light and dark modes

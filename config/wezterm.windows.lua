@@ -35,8 +35,9 @@ local config = {
 
 	-- color_scheme = 'Github (base16)',
 	-- color_scheme = "GitHub Dark",
-    	-- color_scheme = "dayfox",
-    	color_scheme = 'Everforest Dark (Gogh)',
+    -- color_scheme = "dayfox",
+    -- color_scheme = 'Everforest Dark (Gogh)',
+    color_scheme = 'Brewer (light) (terminal.sexy)',
 
 	-- Basic Warnings & Configurations
 	warn_about_missing_glyphs = false,

@@ -4,6 +4,10 @@ fns.map = function(mode, lhs, rhs, desc)
     vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc })
 end
 
+fns.map_args = function(mode, lhs, rhs, args)
+    vim.keymap.set(mode, lhs, rhs, args)
+end
+
 fns.lsp_map = function(lhs, rhs, bufnr, desc)
     vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr, desc = desc })
 end

@@ -27,5 +27,13 @@ return {
             },
         }
     },
-    { "ypicode/bg.nvim",      lazy = false },
+    { 
+        "catppuccin/nvim", 
+        name = "catppuccin", 
+        priority = 1001,
+        opts = {
+            no_italic = true,
+            no_underline = true,
+        }
+    },
 }
