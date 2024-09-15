@@ -1,4 +1,4 @@
-# Util Methods
+#rtil Methods
 
 function fn_dot_home {
 	if [[ ! -z "${DOT_HOME}" ]]; then

@@ -58,6 +58,7 @@ function fn_create_symlink {
 	fn_create_symbolic_link "$HOME/.ideavimrc" "$dot_home/config/idea/idearc"
 	fn_create_symbolic_link "$HOME/.alacritty.yml" "$dot_home/config/alacritty/alacritty.yml"
 	fn_create_symbolic_link "$HOME/.wezterm.lua" "$dot_home/config/wezterm.lua"
+    fn_create_symbolic_link "$HOME/.config/kitty" "$dot_home/config/kitty"
 	mkdir -p "$HOME/.config/wezterm"
 	fn_create_symbolic_link "$HOME/.config/wezterm/colors" "$dot_home/config/wezterm-colors"
 

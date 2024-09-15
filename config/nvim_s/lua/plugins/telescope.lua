@@ -3,7 +3,7 @@ return {
     tag = '0.1.5',
     dependencies = {
         'nvim-lua/plenary.nvim',
-        { "nvim-telescope/telescope-fzf-native.nvim", build = "make", cond = vim.fn.executable("make") == 1 }
+        { "nvim-telescope/telescope-fzf-native.nvim", build = "make", cond = vim.fn.executable("make") == 1 },
     },
     config = function()
         pcall(require("telescope").load_extension, "fzf")
