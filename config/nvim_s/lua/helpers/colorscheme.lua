@@ -23,7 +23,9 @@ end
 -- local colorscheme = get_if_available('dayfox')
 -- local colorscheme = get_if_available('catppuccin-mocha')
 -- local colorscheme = get_if_available('catppuccin-latte')
--- local colorscheme = get_if_available('github_light_high_contrast')
-local colorscheme = get_if_available('github_dark_high_contrast')
+local colorscheme = get_if_available('github_light_high_contrast')
+-- local colorscheme = get_if_available('github_dark_high_contrast')
+-- local colorscheme = get_if_available('ayu-dark')
+-- local colorscheme = get_if_available('material')
 
 return colorscheme
