@@ -1,8 +1,5 @@
 -- start plugins setup using packer
 
--- set 'space' as leader
-require("helpers.keys").set_leader(" ")
-
 --
 local fn = vim.fn
 

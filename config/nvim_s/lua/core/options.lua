@@ -21,6 +21,7 @@ vim.cmd.set("ma")
 vim.cmd.set("nu")
 vim.cmd.set("relativenumber")
 
-local cls = require("helpers.colorscheme")
-vim.cmd.colorscheme(cls)
+vim.cmd.colorscheme(
+  require("helpers.helpers").colorscheme("github_light_high_contrast")
+)
 
