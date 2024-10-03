@@ -1,17 +1,18 @@
 -- vim properties
 --
 local options = {
-    shiftwidth = 4,
-    tabstop = 4,
-    expandtab = true,
-    wrap = false,
-    termguicolors = true,
-    -- colorscheme related
-    background = "dark",
+  shiftwidth = 4,
+  tabstop = 4,
+  expandtab = true,
+  wrap = false,
+  termguicolors = true,
+  conceallevel = 1,
+  -- colorscheme related
+  background = "dark",
 }
 
 for k, v in pairs(options) do
-    vim.opt[k] = v
+  vim.opt[k] = v
 end
 
 -- make buffer modifiable
@@ -24,4 +25,3 @@ vim.cmd.set("relativenumber")
 vim.cmd.colorscheme(
   require("helpers.helpers").colorscheme("github_light_high_contrast")
 )
-

@@ -12,4 +12,14 @@ return {
       })
     end,
   },
+  {
+    "Mofiqul/vscode.nvim",
+    lazy = false,
+    priority = 1001,
+    config = function()
+      require('vscode').setup({
+        italic_comments = false,
+      })
+    end
+  },
 }

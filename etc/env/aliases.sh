@@ -30,3 +30,5 @@ alias jump-gcp-anz-prod='gcloud compute ssh --zone "australia-southeast1-a" "dev
 alias jump-gcp-us-prod='gcloud beta compute ssh --zone "us-east4-a" "pilot-rc-unbxd-mgmt-host-us-est4-a-gce" --tunnel-through-iap --project "$GCP_PROJECT"'
 
 alias git-clone="fn_git_clone_work"
+
+alias nvimobs="nvim ~/Syncthing/Obsidian/Tangerine"

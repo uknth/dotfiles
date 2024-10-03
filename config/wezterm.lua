@@ -28,7 +28,8 @@ return {
 
 	-- color_scheme = "Nightfly (Gogh)",
 	-- color_scheme = "Moonfly (Gogh)",
-	-- color_scheme = "GitHub ", color_scheme = "Github Light (Gogh)",
+	-- color_scheme = "GitHub",
+  -- color_scheme = "Github Light (Gogh)",
 	-- color_scheme = "Github Dark (base16)",
 	-- color_scheme = 'PencilLight',
 	-- color_scheme = 'Everforest Light (Gogh)',

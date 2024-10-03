@@ -58,13 +58,6 @@ map("n", "<C-Left>", ":vertical resize +2<CR>", "resize left with ctrl + left ar
 map("n", "<C-Right>", ":vertical resize -2<CR>", "resize right with ctrl + right arrow")
 
 
--- Deleting buffers
-local h = require("helpers.helpers")
-
-map("n", "<leader>db", h.delete_this, "Current buffer")
-map("n", "<leader>do", h.delete_others, "Other buffers")
-map("n", "<leader>da", h.delete_all, "All buffers")
-
 -- Navigate buffers
 map("n", "<S-l>", ":bnext<CR>", "next buffer")
 map("n", "<S-h>", ":bprevious<CR>", "previous buffer")
@@ -153,11 +146,22 @@ if ot_ok then
   map("n", "<leader>uo", "<cmd>Outline<cr>", "Toggle Outline")
 end
 
+--- Lazygit
 local lg_ok, _ = pcall(require, "lazygit")
 if lg_ok then
   map({"n", "v"}, "<leader>gg", "<cmd>LazyGit<cr>", "LazyGit")
 end
 
+--- Bufferline
+local bl_ok, _ = pcall(require, "bufferline")
+if bl_ok then
+  map("n", "<leader>bd", function() vim.cmd.bdelete() end, "Delete Current Buffer")
+  map({"n", "v"}, "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", "Close Other Buffers")
+  map({"n", "v"}, "<leader>br", "<cmd>BufferLineCloseRight<cr>", "Close Buffers to Right")
+  map({"n", "v"}, "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", "Close Buffers to Left")
+  map("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", "Previous Buffer")
+  map("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", "Next Buffer")
+end
 
 
 return {
