@@ -163,7 +163,6 @@ if bl_ok then
   map("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", "Next Buffer")
 end
 
-
 return {
   -- LSP Keymap, only used when LSP gets attached to the File
   lsp_keymaps = function(bufnr)

@@ -1,6 +1,31 @@
 -- UI Tweaks
 return {
   {
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    opts = {
+      direction = "float",
+      float_opts = {
+        border = 'curved',
+        title_pos = 'left',
+      },
+      -- Usually all other keymaps are done in
+      -- core/keymaps.lua
+      -- however, this is one exception to this
+      -- as there is no easy way to bind this from
+      -- that file
+      --
+      -- This supports pressing `ctrl + \` for
+      -- creating an terminal and closing it
+      open_mapping = [[<c-\>]],
+      insert_mappings = true,
+    },
+    config = function(_, opts)
+      require("toggleterm").setup(opts)
+    end
+  },
+  -- for buffers to show on top as tabs
+  {
     'akinsho/bufferline.nvim',
     dependencies = 'nvim-tree/nvim-web-devicons',
     lazy = false,
@@ -27,7 +52,6 @@ return {
           end)
         end,
       })
-
     end
   },
   -- for beautified command, popupmenu & messages
