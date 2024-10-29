@@ -95,7 +95,7 @@ end
 --- Telescope
 local ts_ok, tsc = pcall(require, "telescope.builtin")
 if ts_ok then
-  map("n", "<leader><space>", tsc.find_files, "Find Files")
+  map("n", "<leader><space>", function() require("telescope").extensions.smart_open.smart_open() end, "Smart Open")
   map("n", "<leader>sf", tsc.find_files, "Find Files")
   map("n", "<leader>sb", tsc.buffers, "Open buffers")
   map("n", "<leader>sg", tsc.live_grep, "Search by Grep")
@@ -120,24 +120,24 @@ if ts_ok then
   end
 end
 
---- Neotree 
+--- Neotree
 local nt_ok, _ = pcall(require, "neo-tree")
 if nt_ok then
-  map({"n", "v"}, "<leader>ue", "<cmd>Neotree toggle left<cr>", "[UI] Toggle File Explorer")
-  map({"n", "v"}, "<leader>ub", "<cmd> Neotree toggle show buffers left<cr>", "[UI] Toggle Buffer Explorer")
-  map({"n", "v"}, "<leader>ug", "<cmd> Neotree toggle show git_status left<cr>", "[UI] Toggle Git Status Explorer")
+  map({ "n", "v" }, "<leader>ue", "<cmd>Neotree toggle left<cr>", "[UI] Toggle File Explorer")
+  map({ "n", "v" }, "<leader>ub", "<cmd> Neotree toggle show buffers left<cr>", "[UI] Toggle Buffer Explorer")
+  map({ "n", "v" }, "<leader>ug", "<cmd> Neotree toggle show git_status left<cr>", "[UI] Toggle Git Status Explorer")
 end
 
 --- Whichkeys
 local wk_ok, wk = pcall(require, "which-key")
 if wk_ok then
-  map({"n", "v"}, "<leader>?", function() wk.show({global = false}) end, "Buffer Local Keymaps (which-key)")
+  map({ "n", "v" }, "<leader>?", function() wk.show({ global = false }) end, "Buffer Local Keymaps (which-key)")
 end
 
 --- Mason
 local m_ok, _ = pcall(require, "mason")
 if m_ok then
-  map({"n", "v"}, "<leader>M", "<cmd>Mason<cr>", "Show Mason")
+  map({ "n", "v" }, "<leader>M", "<cmd>Mason<cr>", "Show Mason")
 end
 
 --- Outline
@@ -149,16 +149,16 @@ end
 --- Lazygit
 local lg_ok, _ = pcall(require, "lazygit")
 if lg_ok then
-  map({"n", "v"}, "<leader>gg", "<cmd>LazyGit<cr>", "LazyGit")
+  map({ "n", "v" }, "<leader>gg", "<cmd>LazyGit<cr>", "LazyGit")
 end
 
 --- Bufferline
 local bl_ok, _ = pcall(require, "bufferline")
 if bl_ok then
   map("n", "<leader>bd", function() vim.cmd.bdelete() end, "Delete Current Buffer")
-  map({"n", "v"}, "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", "Close Other Buffers")
-  map({"n", "v"}, "<leader>br", "<cmd>BufferLineCloseRight<cr>", "Close Buffers to Right")
-  map({"n", "v"}, "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", "Close Buffers to Left")
+  map({ "n", "v" }, "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", "Close Other Buffers")
+  map({ "n", "v" }, "<leader>br", "<cmd>BufferLineCloseRight<cr>", "Close Buffers to Right")
+  map({ "n", "v" }, "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", "Close Buffers to Left")
   map("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", "Previous Buffer")
   map("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", "Next Buffer")
 end

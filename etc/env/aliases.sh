@@ -32,3 +32,9 @@ alias jump-gcp-us-prod='gcloud beta compute ssh --zone "us-east4-a" "pilot-rc-un
 alias git-clone="fn_git_clone_work"
 
 alias nvimobs="nvim ~/Syncthing/Obsidian/Tangerine"
+
+alias w="ssh  workstation-1.hnet"
+
+if [ -f "$DOT_DATA/etc/env/aliases.sh" ]; then 
+    source $DOT_DATA/etc/env/aliases.sh
+fi

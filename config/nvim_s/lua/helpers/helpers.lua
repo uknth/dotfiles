@@ -3,7 +3,13 @@
 local function safe_colorscheme(name, opts)
   local ok, mod = pcall(require, name)
   if ok then
+
+    if opts == nil then
+      opts = {}
+    end
+
     mod.setup(opts)
+
     return name
   end
 

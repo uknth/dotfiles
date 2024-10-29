@@ -27,11 +27,12 @@ return {
   -- for buffers to show on top as tabs
   {
     'akinsho/bufferline.nvim',
-    dependencies = 'nvim-tree/nvim-web-devicons',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+    },
     lazy = false,
     opts = {
       options = {
-        close_command = function(n) require("helpers.helpers").bufremove(n) end,
         offsets = {
           {
             filetype = "neo-tree",

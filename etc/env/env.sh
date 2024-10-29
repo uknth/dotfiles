@@ -33,3 +33,7 @@ fi
 
 export PATH="$dot_home/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin"
+
+if [ -f "$DOT_DATA/etc/env/env.sh" ]; then 
+    source $DOT_DATA/etc/env/env.sh
+fi

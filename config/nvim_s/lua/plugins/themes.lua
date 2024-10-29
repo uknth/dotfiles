@@ -1,8 +1,8 @@
 return {
   {
     'projekt0n/github-nvim-theme',
-    lazy = false,        -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000,     -- make sure to load this before all the other start plugins
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       require('github-theme').setup({
         styles = {
@@ -13,13 +13,16 @@ return {
     end,
   },
   {
-    "Mofiqul/vscode.nvim",
+    "neanias/everforest-nvim",
+    version = false,
     lazy = false,
-    priority = 1001,
+    priority = 1002, -- make sure to load this before all the other start plugins
+    -- Optional; default configuration will be used if setup isn't called.
     config = function()
-      require('vscode').setup({
-        italic_comments = false,
+      require("everforest").setup({
+        -- Your config here
+        disable_italic_comments = true
       })
-    end
+    end,
   },
 }
