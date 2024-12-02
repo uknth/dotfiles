@@ -13,7 +13,7 @@ function fn_dev_go {
 	workspace_home=$1
 
 	if [ ! -d "$workspace_home/lib/Go" ]; then
-		fn_create_directory_tree
+		fn_create_directory_tree $workspace_home
 	fi
 
 	export GOPATH="$workspace_home/lib/Go"

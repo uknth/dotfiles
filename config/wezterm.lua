@@ -154,12 +154,12 @@ local default_colors = {
 
 -- config.color_scheme = "Nightfly (Gogh)"
 -- config.color_scheme = "Moonfly (Gogh)"
--- config.color_scheme = "Github (base16)"
+config.color_scheme = "Github (base16)"
 -- config.color_scheme = 'flexoki-light'
 -- config.color_scheme = "Github Light (Gogh)"
 -- config.color_scheme = "Github Dark (base16)"
 -- config.color_scheme = 'PencilLight'
-config.color_scheme = 'Everforest Dark (Gogh)'
+-- config.color_scheme = 'Everforest Dark (Gogh)'
 -- config.color_scheme = '3024 Day (Gogh)'
 -- config.color_scheme = 'Brewer (light) (terminal.sexy)'
 -- config.color_scheme = 'Classic Light (base16)'

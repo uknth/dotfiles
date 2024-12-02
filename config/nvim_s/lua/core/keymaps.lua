@@ -95,8 +95,9 @@ end
 --- Telescope
 local ts_ok, tsc = pcall(require, "telescope.builtin")
 if ts_ok then
-  map("n", "<leader><space>", function() require("telescope").extensions.smart_open.smart_open() end, "Smart Open")
+  map("n", "<leader>ss", function() require("telescope").extensions.smart_open.smart_open() end, "Smart Open")
   map("n", "<leader>sf", tsc.find_files, "Find Files")
+  map("n", "<leader><leader>", tsc.find_files, "Find Files")
   map("n", "<leader>sb", tsc.buffers, "Open buffers")
   map("n", "<leader>sg", tsc.live_grep, "Search by Grep")
   map("n", "<leader>sc", tsc.commands, "Search Commands")
