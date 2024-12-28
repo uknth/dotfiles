@@ -13,15 +13,33 @@ return {
     end,
   },
   {
+    'Shatur/neovim-ayu', 
+    lazy = false, 
+    priority = 1001,
+    config = function()
+      local colors = require('ayu.colors')
+      colors.generate() -- Pass `true` to enable mirage
+
+      require('ayu').setup({
+        mirage = false,
+        terminal = true,
+        overrides = function()
+          return { Comment = { fg = colors.comment } }
+        end
+      })
+    end
+  },
+  {
     "neanias/everforest-nvim",
     version = false,
     lazy = false,
     priority = 1002, -- make sure to load this before all the other start plugins
-    -- Optional; default configuration will be used if setup isn't called.
     config = function()
       require("everforest").setup({
         -- Your config here
-        disable_italic_comments = true
+        background = "hard",
+        disable_italic_comments = true,
+        --
       })
     end,
   },

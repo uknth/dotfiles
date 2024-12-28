@@ -8,7 +8,7 @@ local options = {
   termguicolors = true,
   conceallevel = 1,
   -- colorscheme related
-  background = "light",
+  background = "dark",
 }
 
 for k, v in pairs(options) do
@@ -23,5 +23,5 @@ vim.cmd.set("nu")
 vim.cmd.set("relativenumber")
 
 vim.cmd.colorscheme(
-  require("helpers.helpers").colorscheme("github_light_colorblind")
+  require("helpers.helpers").colorscheme("everforest")
 )
