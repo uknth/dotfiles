@@ -1,0 +1,4 @@
+theme = "Everforest Dark - Hard"
+font-family = "AnonymicePro Nerd Font"
+command = /usr/bin/zsh --login --interactive
+font-size = 10
