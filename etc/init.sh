@@ -91,7 +91,20 @@ fi
 # Development Environment
 fn_dev_go $workspace_home
 
-fn_neofetch
+# fn_neofetch
+
+opt_dir="/opt"
+
+# Get all subdirectories in /opt that contain a bin subdirectory
+bin_dirs=$(find "$opt_dir" -mindepth 2 -maxdepth 2 -type d -name "bin" -print)
+
+new_path=""
+for i in $(find "/opt" -mindepth 2 -maxdepth 2 -type d -name "bin" -print); do 
+	new_path="$new_path:$i" 
+done
+
+
+export PATH="$PATH$new_path"
 
 # ssh-environment, makes sure its up
 SSH_ENV="$HOME/.ssh/agent-environment"

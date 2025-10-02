@@ -23,5 +23,5 @@ vim.cmd.set("nu")
 vim.cmd.set("relativenumber")
 
 vim.cmd.colorscheme(
-  require("helpers.helpers").colorscheme("everforest")
+  require("helpers.helpers").colorscheme("github_light_colorblind")
 )

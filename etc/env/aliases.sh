@@ -40,3 +40,12 @@ alias w="ssh  workstation-1.hnet"
 if [ -f "$DOT_DATA/etc/env/aliases.sh" ]; then 
     source $DOT_DATA/etc/env/aliases.sh
 fi
+
+if command -v bat 2>&1 >/dev/null; then
+    alias cat="bat"
+fi
+
+alias zola='docker run -i -u "$(id -u):$(id -g)" -v $PWD:/app --workdir /app ghcr.io/getzola/zola:v0.19.1'
+alias zola-build='docker run -u "$(id -u):$(id -g)" -v $PWD:/app --workdir /app ghcr.io/getzola/zola:v0.19.1 build'
+alias zola-run-remote='docker run -u "$(id -u):$(id -g)" -v $PWD:/app --workdir /app -p 8080:8080 ghcr.io/getzola/zola:v0.19.1 serve --interface 0.0.0.0 --port 8080'
+alias zola-run-wsl='docker run -u "$(id -u):$(id -g)" -v $PWD:/app --workdir /app -p 8080:8080 ghcr.io/getzola/zola:v0.19.1 serve --interface 0.0.0.0 --port 8080 --base-url "http://127.0.0.1"'

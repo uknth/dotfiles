@@ -1,0 +1,4 @@
+theme = "Github Light High Contrast"
+font-family = "JetBrainsMono Nerd Font"
+command = /bin/zsh --login --interactive
+font-size = 15
