@@ -58,10 +58,12 @@ function fn_create_symlink {
 	fn_create_symbolic_link "$HOME/.ideavimrc" "$dot_home/config/idea/idearc"
 	fn_create_symbolic_link "$HOME/.alacritty.yml" "$dot_home/config/alacritty/alacritty.yml"
 	fn_create_symbolic_link "$HOME/.wezterm.lua" "$dot_home/config/wezterm.lua"
-    fn_create_symbolic_link "$HOME/.config/kitty" "$dot_home/config/kitty"
-    fn_create_symbolic_link "$HOME/.config/ghostty" "$dot_home/config/ghostty"
+	fn_create_symbolic_link "$HOME/.config/kitty" "$dot_home/config/kitty"
+	fn_create_symbolic_link "$HOME/.config/ghostty" "$dot_home/config/ghostty"
+
 	mkdir -p "$HOME/.config/wezterm"
 	fn_create_symbolic_link "$HOME/.config/wezterm/colors" "$dot_home/config/wezterm-colors"
+	fn_create_symbolic_link "$HOME/.config/aerospace" "$dot_home/config/aerospace" 
 
 	# exclusive to macos
 	if [ "$dot_os" = "darwin" ]; then
