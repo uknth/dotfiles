@@ -59,7 +59,7 @@ return {
 
       -- Lua
       require("lspconfig")["lua_ls"].setup({
-        on_attach = require("helpers.helpers").lsp_on_attach,
+        on_attach = require("utils.lsp").on_attach,
         capabilities = capabilities,
         settings = {
           Lua = {
@@ -80,7 +80,7 @@ return {
       })
 
       require("lspconfig")["gopls"].setup({
-        on_attach = require("helpers.helpers").lsp_on_attach,
+        on_attach = require("utils.lsp").on_attach,
         capabilities = capabilities,
         settings = {
           gopls = {
